@@ -1,0 +1,31 @@
+<h2>
+	<button (click)="refreshHikes()" mat-button>
+		<i class="material-icons">refresh</i>
+	</button>
+	All Hikes
+</h2>
+
+<table mat-table [dataSource]="hikes">
+	<ng-container matColumnDef="name">
+		<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+		<mat-cell *matCellDef="let hike"> {{hike.name}}</mat-cell>
+	</ng-container>
+	<ng-container matColumnDef="hikeDistanceMiles">
+		<mat-header-cell *matHeaderCellDef>Hike Distances (miles)</mat-header-cell>
+		<mat-cell *matCellDef="let hike"> {{hike.hikeDistanceMiles}}</mat-cell>
+	</ng-container>
+	<ng-container matColumnDef="distanceFromBostonHours">
+		<mat-header-cell *matHeaderCellDef>Distance From Boston</mat-header-cell>
+		<mat-cell *matCellDef="let hike"> {{hike.distanceFromBostonHours}}</mat-cell>
+	</ng-container>
+	<ng-container matColumnDef="delete">
+		<mat-header-cell *matHeaderCellDef></mat-header-cell>
+		<mat-cell *matCellDef="let hike">
+			<button [disabled]='isDeleting' mat-button (click)='deleteHike(hike._id)'>
+				<i class="material-icons">delete</i>
+			</button>
+		</mat-cell>
+	</ng-container>
+	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</table>

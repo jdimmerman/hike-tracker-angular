@@ -1,0 +1,22 @@
+<h2>Add New Hike</h2>
+
+<form class='form' (ngSubmit)='addHike()' [formGroup]='addHikeForm'>
+	<mat-form-field ngClass='add-hike_input' appearance='outline'>
+		<mat-label>Name</mat-label>
+		<input type='text' matInput formControlName='name' placeholder='Name' />
+		<mat-error *ngIf="formControlHasError('name', 'required')">Required</mat-error>
+	</mat-form-field>
+	<mat-form-field ngClass='add-hike_input' appearance='outline'>
+		<mat-label>Distance from Boston (hrs)</mat-label>
+		<input type='number' matInput formControlName='distanceFromBostonHours' />
+		<mat-error *ngIf="formControlHasError('distanceFromBostonHours', 'required')">Required</mat-error>
+		<mat-error *ngIf="formControlHasError('distanceFromBostonHours', 'notPositive')">Must be greater than 0</mat-error>
+	</mat-form-field>
+	<mat-form-field ngClass='add-hike_input' appearance='outline'>
+		<mat-label>Hike Distance (miles)</mat-label>
+		<input type='number' matInput formControlName='hikeDistanceMiles' />
+		<mat-error *ngIf="formControlHasError('hikeDistanceMiles', 'required')">Required</mat-error>
+		<mat-error *ngIf="formControlHasError('hikeDistanceMiles', 'notPositive')">Must be greater than 0</mat-error>
+	</mat-form-field>
+	<button [disabled]='addHikeForm.invalid || isSubmitting' type='submit' mat-button>Submit</button>
+</form>
