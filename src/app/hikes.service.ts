@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface IHike {
-  id?: number;
+  id?: number | null;
   name: string;
   distanceFromBostonHours: number;
   hikeDistanceMiles: number;
@@ -13,7 +13,7 @@ export interface IHike {
   providedIn: 'root'
 })
 export class HikesService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   rootUrl: string = 'http://localhost:8081/api/hike';
 
   getHikes(): Observable<IHike[]> {

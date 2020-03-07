@@ -28,10 +28,5 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## TODO
 
-* implement add hike
-* implement aggregations
-* add icons
-* learn about rxjs
 * move to global state
-* make a PWA
 * other angular concepts? custom attribute or pipe maybe

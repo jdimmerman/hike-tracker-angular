@@ -19,4 +19,5 @@
 		<mat-error *ngIf="formControlHasError('hikeDistanceMiles', 'notPositive')">Must be greater than 0</mat-error>
 	</mat-form-field>
 	<button [disabled]='addHikeForm.invalid || isSubmitting' type='submit' mat-button>Submit</button>
+	<mat-error *ngIf="submitFailed">Adding Hike Failed</mat-error>
 </form>

@@ -16,6 +16,8 @@ import {
 })
 export class AddHikeComponent implements OnInit {
   isSubmitting: boolean = false;
+  submitFailed: boolean = false;
+  lastSubmitFailedTimeout: number;
   addHikeForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     hikeDistanceMiles: new FormControl(0, [Validators.required, this.positiveNumber()]),
@@ -30,15 +32,22 @@ export class AddHikeComponent implements OnInit {
   ngOnInit(): void {}
 
   async addHike(): Promise<void> {
+    clearTimeout(this.lastSubmitFailedTimeout);
+    this.submitFailed = false;
     const newHike: IHike = {
       name: this.addHikeForm.get('name').value,
       hikeDistanceMiles: this.addHikeForm.get('hikeDistanceMiles').value,
       distanceFromBostonHours: this.addHikeForm.get('distanceFromBostonHours').value,
     }
     this.isSubmitting = true;
-    await this.hikesService.addHike(newHike).toPromise();
+    try {
+      await this.hikesService.addHike(newHike).toPromise();
+      this.router.navigateByUrl('/');
+    } catch(err) {
+      this.submitFailed = true;
+      this.lastSubmitFailedTimeout = window.setTimeout(() => this.submitFailed = false, 5000)
+    }
     this.isSubmitting = false;
-    this.router.navigateByUrl('/');
   }
 
   formControlHasError(formControlName: string, errorName: string) : boolean {

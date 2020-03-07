@@ -16,14 +16,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { AllHikesComponent } from './all-hikes/all-hikes.component';
-import { AggregationsComponent } from './aggregations/aggregations.component';
 import { AddHikeComponent } from './add-hike/add-hike.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
     AppComponent,
     AllHikesComponent,
-    AggregationsComponent,
     AddHikeComponent,
   ],
   imports: [
@@ -39,6 +39,7 @@ import { AddHikeComponent } from './add-hike/add-hike.component';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
