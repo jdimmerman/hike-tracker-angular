@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class AllHikesComponent implements OnInit {
   hikes: Observable<IHike[]>;
+  deleteHikeFailed: boolean = false;
+  deleteHikeFailedTimeout: number;
   isDeleting: boolean = false;
   displayedColumns: string[] = ['name', 'hikeDistanceMiles', 'distanceFromBostonHours', 'delete'];
 
@@ -25,9 +27,16 @@ export class AllHikesComponent implements OnInit {
   }
 
   async deleteHike(hikeId: any): Promise<void> {
+    clearTimeout(this.deleteHikeFailedTimeout);
+    this.deleteHikeFailed = false;
     this.isDeleting = true;
-    await this.hikesService.deleteHike(hikeId).toPromise();
-    await this.refreshHikes().toPromise();
+    try {
+      await this.hikesService.deleteHike(hikeId).toPromise();
+      await this.refreshHikes().toPromise();
+    } catch(err) {
+      this.deleteHikeFailed = true;
+      this.deleteHikeFailedTimeout = window.setTimeout(() => this.deleteHikeFailed = false, 5000);
+    }
     setTimeout(() => this.isDeleting = false, 50);
   }
 }

@@ -29,3 +29,4 @@
 	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </table>
+<mat-error *ngIf="deleteHikeFailed">Failed to Delete Hike</mat-error>
