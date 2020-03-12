@@ -1,33 +1,35 @@
 <h2>
-	<button (click)="refreshHikes()" mat-button>
-		<i class="material-icons">refresh</i>
-	</button>
-	All Hikes
+  <span>All Hikes</span>
+  <button (click)="refreshHikes()" mat-button>
+    <i class="material-icons">refresh</i>
+  </button>
 </h2>
 
-<mat-spinner class='loading' *ngIf='loadingInitial' [diameter]="40"></mat-spinner>
+<mat-spinner class="loading" *ngIf="false" [diameter]="40"></mat-spinner>
 
-<table *ngIf='!loadingInitial' mat-table [dataSource]="hikes">
-	<ng-container matColumnDef="name">
-		<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-		<mat-cell *matCellDef="let hike"> {{hike.name}}</mat-cell>
-	</ng-container>
-	<ng-container matColumnDef="hikeDistanceMiles">
-		<mat-header-cell *matHeaderCellDef>Hike Distances (miles)</mat-header-cell>
-		<mat-cell *matCellDef="let hike"> {{hike.hikeDistanceMiles}}</mat-cell>
-	</ng-container>
-	<ng-container matColumnDef="distanceFromBostonHours">
-		<mat-header-cell *matHeaderCellDef>Distance From Boston</mat-header-cell>
-		<mat-cell *matCellDef="let hike"> {{hike.distanceFromBostonHours}}</mat-cell>
-	</ng-container>
-	<ng-container matColumnDef="delete">
-		<mat-header-cell *matHeaderCellDef></mat-header-cell>
-		<mat-cell *matCellDef="let hike">
-			<button mat-button (click)='deleteHike(hike._id)'>
-				<i class="material-icons">delete</i>
-			</button>
-		</mat-cell>
-	</ng-container>
-	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+<table *ngIf="!false" mat-table [dataSource]="hikes">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+    <mat-cell *matCellDef="let hike"> {{ hike.name }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="hikeDistanceMiles">
+    <mat-header-cell *matHeaderCellDef>Hike Distances (miles)</mat-header-cell>
+    <mat-cell *matCellDef="let hike"> {{ hike.hikeDistanceMiles }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="distanceFromBostonHours">
+    <mat-header-cell *matHeaderCellDef>Distance From Boston</mat-header-cell>
+    <mat-cell *matCellDef="let hike">
+      {{ hike.distanceFromBostonHours }}</mat-cell
+    >
+  </ng-container>
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell *matCellDef="let hike">
+      <button mat-button (click)="deleteHike(hike._id)">
+        <i class="material-icons">delete</i>
+      </button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </table>

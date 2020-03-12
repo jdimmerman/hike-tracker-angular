@@ -1,7 +1,18 @@
 table {
-	width: 100%
+  width: 100%;
+}
+
+h2 {
+  display: flex;
+  justify-content: space-between;
+
+  & button {
+    padding: 0;
+    margin-right: 20px;
+    min-width: 36px;
+  }
 }
 
 .loading {
-	margin: auto;
+  margin: auto;
 }

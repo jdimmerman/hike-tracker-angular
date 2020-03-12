@@ -1,33 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { HikesService, IHike } from '../hikes.service';
-import { Observable } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnInit } from "@angular/core";
+import { IHike } from "../services/hikes.service";
+import { Observable } from "rxjs";
+import { HikesState } from "../services/hikes.selectors";
+import { Store } from "@ngrx/store";
+import { fetch, remove } from "../services/hikes.actions";
 
 @Component({
-  selector: 'app-all-hikes',
-  templateUrl: './all-hikes.component.html',
-  styleUrls: ['./all-hikes.component.scss']
+  selector: "app-all-hikes",
+  templateUrl: "./all-hikes.component.html",
+  styleUrls: ["./all-hikes.component.scss"]
 })
 export class AllHikesComponent implements OnInit {
   hikes: Observable<IHike[]>;
-  displayedColumns: string[] = ['name', 'hikeDistanceMiles', 'distanceFromBostonHours', 'delete'];
-  loadingInitial: boolean;
+  displayedColumns: string[] = [
+    "name",
+    "hikeDistanceMiles",
+    "distanceFromBostonHours",
+    "delete"
+  ];
 
-  constructor(private hikesService: HikesService, private snackBar: MatSnackBar) { }
+  constructor(private store: Store<HikesState>) {}
 
-  async ngOnInit(): Promise<void> {
-    this.hikes = this.hikesService.hikes;
-    this.hikesService.loadingInitial.subscribe({
-      next: (v) => this.loadingInitial = v,
-    });
-    await this.refreshHikes();
+  ngOnInit(): void {
+    this.hikes = this.store.select(state => state.hikes);
   }
 
-  async refreshHikes(): Promise<void> {
-    await this.hikesService.fetchHikes();
+  refreshHikes(): void {
+    this.store.dispatch(fetch());
   }
 
-  async deleteHike(hikeId: any): Promise<void> {
-    this.hikesService.deleteHike(hikeId);
+  deleteHike(hikeId: string): void {
+    this.store.dispatch(remove({ hikeId }));
   }
 }

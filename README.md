@@ -28,8 +28,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## TODO
 
-* move to global state (ngrx?)
-* other angular concepts? custom attribute or pipe maybe
-* tests
-* two way communication via websockets (both clients?)
-* mobile view
+- add back in short circuit add/remove and initial loading state for global state
+- other angular concepts? custom attribute or pipe maybe
+- tests
+- two way communication via websockets (both clients?)
+- mobile view
