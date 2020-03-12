@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HikesService, IHike } from '../hikes.service';
 import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-all-hikes',
@@ -9,34 +10,24 @@ import { Observable } from 'rxjs';
 })
 export class AllHikesComponent implements OnInit {
   hikes: Observable<IHike[]>;
-  deleteHikeFailed: boolean = false;
-  deleteHikeFailedTimeout: number;
-  isDeleting: boolean = false;
   displayedColumns: string[] = ['name', 'hikeDistanceMiles', 'distanceFromBostonHours', 'delete'];
+  loadingInitial: boolean;
 
-  constructor(private hikesService: HikesService) { }
+  constructor(private hikesService: HikesService, private snackBar: MatSnackBar) { }
 
-  ngOnInit(): void {
-    this.refreshHikes();
+  async ngOnInit(): Promise<void> {
+    this.hikes = this.hikesService.hikes;
+    this.hikesService.loadingInitial.subscribe({
+      next: (v) => this.loadingInitial = v,
+    });
+    await this.refreshHikes();
   }
 
-  refreshHikes(): Observable<IHike[]> {
-    const getHikesObservable = this.hikesService.getHikes();
-    this.hikes = getHikesObservable;
-    return getHikesObservable;
+  async refreshHikes(): Promise<void> {
+    await this.hikesService.fetchHikes();
   }
 
   async deleteHike(hikeId: any): Promise<void> {
-    clearTimeout(this.deleteHikeFailedTimeout);
-    this.deleteHikeFailed = false;
-    this.isDeleting = true;
-    try {
-      await this.hikesService.deleteHike(hikeId).toPromise();
-      await this.refreshHikes().toPromise();
-    } catch(err) {
-      this.deleteHikeFailed = true;
-      this.deleteHikeFailedTimeout = window.setTimeout(() => this.deleteHikeFailed = false, 5000);
-    }
-    setTimeout(() => this.isDeleting = false, 50);
+    this.hikesService.deleteHike(hikeId);
   }
 }

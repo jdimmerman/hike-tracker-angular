@@ -5,7 +5,9 @@
 	All Hikes
 </h2>
 
-<table mat-table [dataSource]="hikes">
+<mat-spinner class='loading' *ngIf='loadingInitial' [diameter]="40"></mat-spinner>
+
+<table *ngIf='!loadingInitial' mat-table [dataSource]="hikes">
 	<ng-container matColumnDef="name">
 		<mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
 		<mat-cell *matCellDef="let hike"> {{hike.name}}</mat-cell>
@@ -21,7 +23,7 @@
 	<ng-container matColumnDef="delete">
 		<mat-header-cell *matHeaderCellDef></mat-header-cell>
 		<mat-cell *matCellDef="let hike">
-			<button [disabled]='isDeleting' mat-button (click)='deleteHike(hike._id)'>
+			<button mat-button (click)='deleteHike(hike._id)'>
 				<i class="material-icons">delete</i>
 			</button>
 		</mat-cell>
@@ -29,4 +31,3 @@
 	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </table>
-<mat-error *ngIf="deleteHikeFailed">Failed to Delete Hike</mat-error>

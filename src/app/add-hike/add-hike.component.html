@@ -18,6 +18,6 @@
 		<mat-error *ngIf="formControlHasError('hikeDistanceMiles', 'required')">Required</mat-error>
 		<mat-error *ngIf="formControlHasError('hikeDistanceMiles', 'notPositive')">Must be greater than 0</mat-error>
 	</mat-form-field>
-	<button [disabled]='addHikeForm.invalid || isSubmitting' type='submit' mat-button>Submit</button>
-	<mat-error *ngIf="submitFailed">Adding Hike Failed</mat-error>
+	<button [disabled]='addHikeForm.invalid || isSubmitting.value' type='submit' mat-button>Submit</button>
+	<mat-spinner class='submit-spinner' *ngIf='isSubmitting.value' [diameter]='20'></mat-spinner>
 </form>
