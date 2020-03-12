@@ -36,7 +36,6 @@ export class HikeEffects {
   fetchHikes = createEffect(() =>
     this.actions.pipe(
       ofType(fetch),
-      map(() => fetchStart()),
       delay(1000),
       map(() =>
         this.hikesService.fetchHikes().pipe(

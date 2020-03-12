@@ -28,6 +28,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## TODO
 
+- combine effects for the same action to get rid of race condition
 - other angular concepts? custom attribute or pipe maybe
 - tests
 - two way communication via websockets (both clients?)
