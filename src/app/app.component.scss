@@ -1,23 +1,24 @@
 .container {
-	background-color: initial;
+  background-color: initial;
 
-	& .main {
-		text-align: center;
-		background-color: initial;
-		padding: 10px 20px 0;
-	}
-	
-	& .sidebar {
-		box-shadow: initial;
-		width: 240px;
-		border-right: 1px solid rgba(0, 0, 0, 0.12);
+  & .main {
+    text-align: center;
+    background-color: initial;
+    padding: 10px 20px 0;
+  }
 
-		& i {
-			margin-right: 33px;
-		}
+  & .sidebar {
+    box-shadow: initial;
+    width: 240px;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
 
-		& a.is-active {
-			color: #999999;
-		}
-	}
+    & i {
+      margin-right: 33px;
+    }
+
+    & a.is-active {
+      color: #999999;
+      cursor: default;
+    }
+  }
 }

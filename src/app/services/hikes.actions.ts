@@ -17,14 +17,21 @@ export const addFailure = createAction(
   "[Hike] Add Failure",
   props<{ tempHikeId: string }>()
 );
+
 export const fetch = createAction("[Hike] Fetch");
-export const fetchStart = createAction("[Hike] Fetch Start");
+export const fetchMarkLoading = createAction("[Hike] Fetch Mark Loading");
+export const fetchFromRemote = createAction("[Hike] Fetch from Remote");
 export const fetchSuccess = createAction(
   "[Hike] Fetch Success",
   props<{ hikes: IHike[] }>()
 );
 export const fetchFailure = createAction("[Hike] Fetch Failure");
+
 export const remove = createAction("[Hike] Remove", props<{ hike: IHike }>());
+export const removeFromRemote = createAction(
+  "[Hike] Remove from Remote",
+  props<{ hike: IHike }>()
+);
 export const removeSuccess = createAction(
   "[Hike] Remove Success",
   props<{ hikeId: string }>()

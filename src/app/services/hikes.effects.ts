@@ -4,17 +4,19 @@ import {
   fetch,
   fetchFailure,
   fetchSuccess,
-  fetchStart,
+  fetchMarkLoading,
+  fetchFromRemote,
   add,
   addSuccess,
   addFailure,
   remove,
   removeFailure,
   removeSuccess,
-  removeLocal
+  removeLocal,
+  removeFromRemote
 } from "./hikes.actions";
 import { of } from "rxjs";
-import { map, mergeMap, mergeAll, catchError, delay } from "rxjs/operators";
+import { map, mergeMap, concatMap, catchError, delay } from "rxjs/operators";
 import { HikesService } from "./hikes.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
@@ -26,19 +28,19 @@ export class HikeEffects {
     private snackBar: MatSnackBar
   ) {}
 
-  fetchHikesStart = createEffect(() =>
+  fetch = createEffect(() =>
     this.actions.pipe(
       ofType(fetch),
-      map(() => fetchStart())
+      concatMap(() => [fetchMarkLoading(), fetchFromRemote()])
     )
   );
 
-  fetchHikes = createEffect(() =>
+  fetchFromRemote = createEffect(() =>
     this.actions.pipe(
-      ofType(fetch),
-      delay(1000),
-      map(() =>
+      ofType(fetchFromRemote),
+      mergeMap(() =>
         this.hikesService.fetchHikes().pipe(
+          delay(1000),
           map(hikes => fetchSuccess({ hikes })),
           catchError(err => {
             console.error(`Failed to load hikes`, err);
@@ -48,12 +50,11 @@ export class HikeEffects {
             return of(fetchFailure());
           })
         )
-      ),
-      mergeAll()
+      )
     )
   );
 
-  addHike = createEffect(() =>
+  add = createEffect(() =>
     this.actions.pipe(
       ofType(add),
       mergeMap(({ hike, tempHikeId }) =>
@@ -72,12 +73,29 @@ export class HikeEffects {
     )
   );
 
-  removeHikeLocal = createEffect(() =>
+  remove = createEffect(() =>
     this.actions.pipe(
       ofType(remove),
+      concatMap(({ hike }) => [
+        removeLocal({ hikeId: hike._id }),
+        removeFromRemote({ hike })
+      ])
+    )
+  );
+
+  removeLocal = createEffect(() =>
+    this.actions.pipe(
+      ofType(remove),
+      map(({ hike }) => removeLocal({ hikeId: hike._id }))
+    )
+  );
+
+  removeFromRemote = createEffect(() =>
+    this.actions.pipe(
+      ofType(removeFromRemote),
+      delay(1000),
       mergeMap(({ hike }) =>
         this.hikesService.removeHike(hike._id).pipe(
-          delay(1000),
           map(() => removeSuccess({ hikeId: hike._id })),
           catchError(err => {
             console.error(`Failed to remove hike`, err);
@@ -88,13 +106,6 @@ export class HikeEffects {
           })
         )
       )
-    )
-  );
-
-  removeHike = createEffect(() =>
-    this.actions.pipe(
-      ofType(remove),
-      map(({ hike }) => removeLocal({ hikeId: hike._id }))
     )
   );
 }

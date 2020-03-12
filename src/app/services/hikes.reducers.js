@@ -6,7 +6,7 @@ import {
   removeLocal,
   removeFailure,
   fetchSuccess,
-  fetchStart,
+  fetchMarkLoading,
   fetchFailure
 } from "./hikes.actions";
 
@@ -30,7 +30,7 @@ const _hikeReducer = createReducer(
     ...state,
     list: [...state.list.filter(h => h._tempId !== tempHikeId)]
   })),
-  on(fetchStart, state => ({ ...state, loading: true })),
+  on(fetchMarkLoading, state => ({ ...state, loading: true })),
   on(fetchSuccess, (state, { hikes }) => ({
     ...state,
     list: [...hikes],
