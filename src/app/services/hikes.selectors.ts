@@ -2,12 +2,29 @@ import { createSelector } from "@ngrx/store";
 import { IHike } from "./hikes.service";
 
 export interface HikesState {
-  hikes: IHike[];
+  hikes: {
+    list: IHike[];
+    initialLoading: boolean;
+    loading: boolean;
+  };
 }
 
-const selectHikesFromStore = (state: HikesState) => state.hikes;
+const selectHikesListFromStore = (state: HikesState) => state.hikes.list;
+const selectHikesInitialLoadingFromStore = (state: HikesState) =>
+  state.hikes.initialLoading;
+const selectHikesLoadingFromStore = (state: HikesState) => state.hikes.loading;
 
-export const selectHikes = createSelector(
-  selectHikesFromStore,
-  (hikes: IHike[]) => hikes
+export const selectHikesList = createSelector(
+  selectHikesListFromStore,
+  (list: IHike[]) => list
+);
+
+export const selectHikesInitialLoading = createSelector(
+  selectHikesInitialLoadingFromStore,
+  (initialLoading: boolean) => initialLoading
+);
+
+export const selectHikesLoading = createSelector(
+  selectHikesLoadingFromStore,
+  (loading: boolean) => loading
 );

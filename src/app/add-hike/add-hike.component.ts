@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { IHike } from "../services/hikes.service";
 import { HikesState } from "../services/hikes.selectors";
 import { Store } from "@ngrx/store";
-import { add } from "../services/hikes.actions";
+import { add, addLocal } from "../services/hikes.actions";
 import { v1 as uuidv1 } from "uuid";
 import {
   FormControl,
@@ -49,6 +49,7 @@ export class AddHikeComponent implements OnInit {
     };
     this.isSubmitting.next(true);
     this.store.dispatch(add({ hike: newHike, tempHikeId }));
+    this.store.dispatch(addLocal({ hike: newHike, tempHikeId }));
     this.isSubmitting.next(false);
     this.router.navigateByUrl("/");
   }

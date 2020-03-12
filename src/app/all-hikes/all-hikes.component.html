@@ -1,13 +1,20 @@
 <h2>
   <span>All Hikes</span>
-  <button (click)="refreshHikes()" mat-button>
+  <button (click)="refreshHikes()" *ngIf="!loading" mat-button>
     <i class="material-icons">refresh</i>
   </button>
+  <span *ngIf="loading" class="loading-wrapper">
+    <mat-spinner [diameter]="20"></mat-spinner
+  ></span>
 </h2>
 
-<mat-spinner class="loading" *ngIf="false" [diameter]="40"></mat-spinner>
+<mat-spinner
+  class="initial-loading"
+  *ngIf="initialLoading"
+  [diameter]="40"
+></mat-spinner>
 
-<table *ngIf="!false" mat-table [dataSource]="hikes">
+<table *ngIf="!initialLoading" mat-table [dataSource]="hikes">
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
     <mat-cell *matCellDef="let hike"> {{ hike.name }}</mat-cell>
@@ -25,7 +32,7 @@
   <ng-container matColumnDef="delete">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell *matCellDef="let hike">
-      <button mat-button (click)="deleteHike(hike._id)">
+      <button [disabled]="hike._tempId" mat-button (click)="deleteHike(hike)">
         <i class="material-icons">delete</i>
       </button>
     </mat-cell>
